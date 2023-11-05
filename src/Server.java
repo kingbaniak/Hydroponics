@@ -4,12 +4,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Server {
-    Socket s;
-    PrintWriter pr;
-
-    InputStreamReader in;
-    BufferedReader bf;
+public class Server implements Functionality {
+    Socket socketVal;
+    PrintWriter prtVal;
+    InputStreamReader ioVal;
+    BufferedReader bufVal;
 
     Server(){
 
@@ -17,28 +16,30 @@ public class Server {
 
     public void connect(String ip, Integer port){
         try {
-            s = new Socket(ip, port);
-            pr = new PrintWriter(s.getOutputStream());
-            in = new InputStreamReader(s.getInputStream());
+            socketVal = new Socket(ip, port);
+            prtVal = new PrintWriter(socketVal.getOutputStream());
+            ioVal = new InputStreamReader(socketVal.getInputStream());
         } catch (IOException e) {
-            System.out.println("nie polaczn");
+            System.out.println("Failed to connect");
         }
 
-        bf = new BufferedReader(in);
+        bufVal = new BufferedReader(ioVal);
     }
 
-    public void read(){
-        String str = null;
+    public String read() {
         try {
-            str = bf.readLine();
+            String readVal = bufVal.readLine();
+            System.out.println("server: " + readVal);
+            return readVal;
         } catch (IOException e) {
-            System.out.println("OH mY GOD");
+            System.out.println("Cannot read value");
+            return null; // Handle the exception and return null or an error message
         }
-        System.out.println("server: "+str);
     }
-    public void write(){
-        pr.println("is it working?");
-        pr.flush();
+
+    public void write(String command){
+        prtVal.println(command);
+        prtVal.flush();
     }
     public void disconnect(){}
 }
