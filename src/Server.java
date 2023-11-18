@@ -29,7 +29,7 @@ public class Server implements Functionality {
     public String read() {
         try {
             String readVal = bufVal.readLine();
-            System.out.println("server: " + readVal);
+            //System.out.println("server: " + readVal);
             return readVal;
         } catch (IOException e) {
             System.out.println("Cannot read value");
