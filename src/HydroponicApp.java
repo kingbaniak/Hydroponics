@@ -1,7 +1,8 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 public class HydroponicApp {
@@ -11,6 +12,9 @@ public class HydroponicApp {
     private JLabel Humidity;
     private JLabel Pressure;
     private JLabel LastUpdate;
+    private JButton ledButton;
+    private JButton fanButton;
+    private JSlider ledslider;
 
     JFrame window = new JFrame();
     Font customFont = new Font("Arial", Font.BOLD, 16);
@@ -23,6 +27,10 @@ public class HydroponicApp {
         window.add(Popup);
 
         LastUpdate.setFont(customFont);
+        Temperature.setFont(customFont);
+        Pressure.setFont(customFont);
+        Humidity.setFont(customFont);
+
 
         Timer timer = new Timer(3000, new ActionListener() {
             @Override
@@ -31,6 +39,22 @@ public class HydroponicApp {
             }
         });
         timer.start();
+        fanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                server.write("2");
+            }
+        });
+
+        ledslider.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                String ledVal = String.valueOf(ledslider.getValue());
+                String dataToSend = "3," + ledVal;
+                server.write(dataToSend);
+            }
+        });
     }
 
     private void updateValues() {
