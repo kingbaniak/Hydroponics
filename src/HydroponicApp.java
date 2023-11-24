@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -15,6 +13,8 @@ public class HydroponicApp {
     private JButton ledButton;
     private JButton fanButton;
     private JSlider ledslider;
+    private JLabel Light;
+    private JLabel Water;
 
     JFrame window = new JFrame();
     Font customFont = new Font("Arial", Font.BOLD, 16);
@@ -30,9 +30,10 @@ public class HydroponicApp {
         Temperature.setFont(customFont);
         Pressure.setFont(customFont);
         Humidity.setFont(customFont);
+        Light.setFont(customFont);
+        Water.setFont(customFont);
 
-
-        Timer timer = new Timer(3000, new ActionListener() {
+        Timer timer = new Timer(60000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateValues();
@@ -62,10 +63,14 @@ public class HydroponicApp {
         String temperature = server.read() + " *C";
         String pressure = server.read() +" hPa";
         String humidity = server.read()+" %";
+        String light = server.read()+" lx";
+        String water = server.read() + " *C";
 
         Temperature.setText(temperature);
         Pressure.setText(pressure);
         Humidity.setText(humidity);
+        Light.setText(light);
+        Water.setText(water);
 
         updateLastUpdateField();
     }
