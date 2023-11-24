@@ -33,7 +33,7 @@ public class HydroponicApp {
         Light.setFont(customFont);
         Water.setFont(customFont);
 
-        Timer timer = new Timer(60000, new ActionListener() {
+        Timer timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateValues();
